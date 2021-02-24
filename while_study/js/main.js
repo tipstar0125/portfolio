@@ -1,18 +1,17 @@
 'use strict';
 
 {
-    let i = 1;
 
-    while (i < 100) {
+    while (true) {
         
-        if (i % 15 === 0) {
-            console.log(`FizzBuss ${i}`);
-        } else if (i % 3 === 0) {
-            console.log(`Fizz ${i}`);
-        } else if (i % 5 === 0) {
-            console.log(`Buzz ${i}`);
+        const answer = prompt('日本の首都は？');
+
+        if (answer === '東京') {
+            alert('正解です！');
+            break;
+        } else {
+            alert('不正解です！');
         }
 
-        i += 1;
     }
 }
