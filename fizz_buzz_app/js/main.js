@@ -87,7 +87,7 @@
 
         } else {
             deleteView();
-            resultView('100より小さい正の自然数を入力して下さい');
+            resultView('100より小さい自然数を入力して下さい');
         }
 
     });
