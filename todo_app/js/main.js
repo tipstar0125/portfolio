@@ -3,33 +3,37 @@
 {
     
     const todoNode = document.getElementById('todo');
-    let taskId = 0;
+    const taskNodes = [];
 
     document.getElementById('add').addEventListener('click', () => {
     
         const task = document.getElementById('task');
-        const taskRow = document.createElement('tr');
-        const taskIdNode = document.createElement('td');
-        const taskCommentNode = document.createElement('td');
-        const taskStatusNode = document.createElement('td');
-        const taskDeleteNode = document.createElement('td');
-        const taskStatusButtonNode = document.createElement('button');
-        const taskDeleteButtonNode = document.createElement('button');
 
-        taskIdNode.textContent = taskId;
-        taskId++;
-        taskCommentNode.textContent = task.value;
+        const taskNode = {
+            taskRow: document.createElement('tr'),
+            taskIdNode: document.createElement('td'),
+            taskCommentNode: document.createElement('td'),
+            taskStatusNode: document.createElement('td'),
+            taskDeleteNode: document.createElement('td'),
+            taskStatusButtonNode: document.createElement('button'),
+            taskDeleteButtonNode: document.createElement('button'),
+        };
+
+        taskNodes.push(taskNode);
+
+        taskNode.taskIdNode.textContent = taskNodes.length-1;
+        taskNode.taskCommentNode.textContent = task.value;
         task.value = '';
-        taskStatusButtonNode.textContent = '作業中';
-        taskDeleteButtonNode.textContent = '削除';
+        taskNode.taskStatusButtonNode.textContent = '作業中';
+        taskNode.taskDeleteButtonNode.textContent = '削除';
 
-        taskStatusNode.appendChild(taskStatusButtonNode);
-        taskDeleteNode.appendChild(taskDeleteButtonNode);
-        taskRow.appendChild(taskIdNode);
-        taskRow.appendChild(taskCommentNode);
-        taskRow.appendChild(taskStatusNode);
-        taskRow.appendChild(taskDeleteNode);
-        todoNode.appendChild(taskRow);
+        taskNode.taskStatusNode.appendChild(taskNode.taskStatusButtonNode);
+        taskNode.taskDeleteNode.appendChild(taskNode.taskDeleteButtonNode);
+        taskNode.taskRow.appendChild(taskNode.taskIdNode);
+        taskNode.taskRow.appendChild(taskNode.taskCommentNode);
+        taskNode.taskRow.appendChild(taskNode.taskStatusNode);
+        taskNode.taskRow.appendChild(taskNode.taskDeleteNode);
+        todoNode.appendChild(taskNode.taskRow);
         
     });
 
