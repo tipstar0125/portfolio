@@ -10,30 +10,30 @@
         const task = document.getElementById('task');
 
         const taskNode = {
-            taskRow: document.createElement('tr'),
-            taskIdNode: document.createElement('td'),
-            taskCommentNode: document.createElement('td'),
-            taskStatusNode: document.createElement('td'),
-            taskDeleteNode: document.createElement('td'),
-            taskStatusButtonNode: document.createElement('button'),
-            taskDeleteButtonNode: document.createElement('button'),
+            row: document.createElement('tr'),
+            idNode: document.createElement('td'),
+            commentNode: document.createElement('td'),
+            statusNode: document.createElement('td'),
+            deleteNode: document.createElement('td'),
+            statusButtonNode: document.createElement('button'),
+            deleteButtonNode: document.createElement('button'),
         };
 
         taskNodes.push(taskNode);
 
-        taskNode.taskIdNode.textContent = taskNodes.length-1;
-        taskNode.taskCommentNode.textContent = task.value;
+        taskNode.idNode.textContent = taskNodes.length-1;
+        taskNode.commentNode.textContent = task.value;
         task.value = '';
-        taskNode.taskStatusButtonNode.textContent = '作業中';
-        taskNode.taskDeleteButtonNode.textContent = '削除';
+        taskNode.statusButtonNode.textContent = '作業中';
+        taskNode.deleteButtonNode.textContent = '削除';
 
-        taskNode.taskStatusNode.appendChild(taskNode.taskStatusButtonNode);
-        taskNode.taskDeleteNode.appendChild(taskNode.taskDeleteButtonNode);
-        taskNode.taskRow.appendChild(taskNode.taskIdNode);
-        taskNode.taskRow.appendChild(taskNode.taskCommentNode);
-        taskNode.taskRow.appendChild(taskNode.taskStatusNode);
-        taskNode.taskRow.appendChild(taskNode.taskDeleteNode);
-        todoNode.appendChild(taskNode.taskRow);
+        taskNode.statusNode.appendChild(taskNode.statusButtonNode);
+        taskNode.deleteNode.appendChild(taskNode.deleteButtonNode);
+        taskNode.row.appendChild(taskNode.idNode);
+        taskNode.row.appendChild(taskNode.commentNode);
+        taskNode.row.appendChild(taskNode.statusNode);
+        taskNode.row.appendChild(taskNode.deleteNode);
+        todoNode.appendChild(taskNode.row);
         
     });
 
