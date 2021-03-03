@@ -4,7 +4,6 @@
     
     const todoNode = document.getElementById('todo');
     const todos = [];
-    let taskID = 0;
 
     function deleteView() {
 
@@ -22,7 +21,7 @@
 
         deleteView();
 
-        todos.forEach(todo => {
+        todos.forEach((todo, index) => {
 
             const taskNode = {
                 row: document.createElement('tr'),
@@ -34,7 +33,7 @@
                 deleteButtonNode: document.createElement('button'),
             };
 
-            taskNode.idNode.textContent = todo.id;
+            taskNode.idNode.textContent = index;
             taskNode.commentNode.textContent = todo.task;
             task.value = '';
             taskNode.statusButtonNode.textContent = todo.status;
@@ -56,12 +55,10 @@
     
         const task = document.getElementById('task');
         const todo = {
-            id: taskID,
             task: task.value,
             status: '作業中'
         };
 
-        taskID++;
         todos.push(todo);
         displayTodos(todos);
       
