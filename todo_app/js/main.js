@@ -36,8 +36,14 @@
             taskNode.idNode.textContent = index;
             taskNode.commentNode.textContent = todo.task;
             task.value = '';
+            taskNode.statusButtonNode.id = "status" + index;
             taskNode.statusButtonNode.textContent = todo.status;
+            taskNode.deleteButtonNode.id = "delete" + index;
             taskNode.deleteButtonNode.textContent = '削除';
+            taskNode.deleteButtonNode.addEventListener('click', () => {
+                todos.splice(index, 1);
+                displayTodos(todos);
+            });
     
             taskNode.statusNode.appendChild(taskNode.statusButtonNode);
             taskNode.deleteNode.appendChild(taskNode.deleteButtonNode);
