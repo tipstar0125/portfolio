@@ -36,7 +36,19 @@
             taskNode.idNode.textContent = index;
             taskNode.commentNode.textContent = todo.task;
             task.value = '';
+
+            taskNode.statusButtonNode.id = index;
             taskNode.statusButtonNode.textContent = todo.status;
+            taskNode.statusButtonNode.addEventListener('click', () => {
+                if (taskNode.statusButtonNode.textContent === '作業中') {
+                    todos[taskNode.statusButtonNode.id].status = '完了';
+                    displayTodos(todos);
+                } else {
+                    todos[taskNode.statusButtonNode.id].status = '作業中';
+                    displayTodos(todos);
+                }
+            });
+            
             taskNode.deleteButtonNode.textContent = '削除';
             taskNode.deleteButtonNode.addEventListener('click', () => {
                 todos.splice(index, 1);
