@@ -4,7 +4,6 @@
     
     const todoNode = document.getElementById('todo');
     const todos = [];
-    let taskID = 0;
 
     function deleteView() {
 
@@ -22,7 +21,7 @@
 
         deleteView();
 
-        todos.forEach(todo => {
+        todos.forEach((todo, index) => {
 
             const taskNode = {
                 row: document.createElement('tr'),
@@ -34,11 +33,27 @@
                 deleteButtonNode: document.createElement('button'),
             };
 
-            taskNode.idNode.textContent = todo.id;
+            taskNode.idNode.textContent = index;
             taskNode.commentNode.textContent = todo.task;
             task.value = '';
+
+            taskNode.statusButtonNode.id = index;
             taskNode.statusButtonNode.textContent = todo.status;
+            taskNode.statusButtonNode.addEventListener('click', () => {
+                if (taskNode.statusButtonNode.textContent === '作業中') {
+                    todos[taskNode.statusButtonNode.id].status = '完了';
+                    displayTodos(todos);
+                } else {
+                    todos[taskNode.statusButtonNode.id].status = '作業中';
+                    displayTodos(todos);
+                }
+            });
+            
             taskNode.deleteButtonNode.textContent = '削除';
+            taskNode.deleteButtonNode.addEventListener('click', () => {
+                todos.splice(index, 1);
+                displayTodos(todos);
+            });
     
             taskNode.statusNode.appendChild(taskNode.statusButtonNode);
             taskNode.deleteNode.appendChild(taskNode.deleteButtonNode);
@@ -56,12 +71,10 @@
     
         const task = document.getElementById('task');
         const todo = {
-            id: taskID,
             task: task.value,
             status: '作業中'
         };
 
-        taskID++;
         todos.push(todo);
         displayTodos(todos);
       
