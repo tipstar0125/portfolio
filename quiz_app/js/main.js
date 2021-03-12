@@ -13,16 +13,6 @@
 
         }
 
-        show() {
-            console.log(`intro: ${this.intro}`);
-            console.log(`genre: ${this.genre}`);
-            console.log(`difficulty: ${this.difficulty}`);
-            console.log(`explain: ${this.explain}`);
-            console.log(`btn_sections: ${this.btn_sections}`);
-            console.log(`event: ${this.event}`);
-            console.log(`transition_index: ${this.transition_index}`);
-        }
-
         view() {
             const introNode = document.getElementById('intro');
             const genreNode = document.getElementById('genre');
@@ -74,11 +64,6 @@
 
         }
 
-        show() {
-            console.log(this.correct_answer);
-            console.log(this.incorrect_answers);
-        }
-
         // 選択肢をシャッフルして、シャッフル後の答え（番号）を格納
         choices_shuffle () {
             this.shuffled_answers = shuffle([this.correct_answer, ...this.incorrect_answers]);
@@ -112,8 +97,8 @@
     // クイズ情報取得
     const getQuiz = async (url) => {
 
-        const resp = await fetch(url);
-        const json = await resp.json();
+        const response = await fetch(url);
+        const json = await response.json();
         addView(json);
 
     };
@@ -124,7 +109,6 @@
         data.results.forEach((d, index) => {
             quizes.push(new Quiz(d.correct_answer, d.incorrect_answers));
             quizes[index].choices_shuffle();
-            console.log(`問題${index+1}の答え：${quizes[index].answer_number+1}, ${quizes[index].correct_answer}`);
 
             views.push(new View(`問題${index+1}`, `[ジャンル] ${d.category}`, `[難易度] ${d.difficulty}`, 
             htmlEntities(d.question, 'decode'), quizes[index].shuffled_answers, quizEvent, quizes[index].answer_number));
@@ -139,7 +123,6 @@
     const quizEvent = (IsAnswer) => {
 
         return () => {
-            console.log(IsAnswer);
 
             if (IsAnswer) {
                 correct_answer_number++;
@@ -165,14 +148,14 @@
 
     // Entity decode
     const htmlEntities = (text, proc) => {
-        var entities = [
+        const entities = [
             ['amp', '&'],
             ['apos', '\''],
             ['lt', '<'],
             ['gt', '>'],
         ];
         
-        for (var i=0, max=entities.length; i<max; i++) {
+        for (let i=0, max=entities.length; i<max; i++) {
             if ('encode' === proc) {
             text = text.replace(new RegExp(entities[i][1], 'g'), "&"+entities[i][0]+';').replace('"', '&quot;');
             } else {
