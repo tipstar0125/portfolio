@@ -1,7 +1,7 @@
 <template>
   <div class="row my-3 align-items-center">
 
-    <select v-model="year" @change="get_days" class="btn btn-outline-info ml-3" id="select_year" name="year">
+    <select v-model="year" @change="getDays(); getBirthday();" class="btn btn-outline-info ml-3" id="select_year" name="year">
       <option v-for="n in 50" :value="n + 1980">
         {{ n + 1980 }}
         <span v-if="n + 1980 - 1988 <= 0">
@@ -16,14 +16,13 @@
       </option>
     </select><span class="ml-3">年</span>
 
-    <select v-model="month" @change="get_days" class="btn btn-outline-info ml-3" id="select_month" name="month">
+    <select v-model="month" @change="getDays(); getBirthday();" class="btn btn-outline-info ml-3" id="select_month" name="month">
       <option v-for="n in 12" :value="n">{{ n }}</option>
     </select><span class="ml-3">月</span>
 
-    <select v-model="day" class="btn btn-outline-info ml-3" id="select_day" name="day">
+    <select v-model="day" @change="getBirthday();" class="btn btn-outline-info ml-3" id="select_day" name="day">
       <option v-for="n in days_max" :value="n">{{ n }}</option>
     </select><span class="ml-3">日</span>
-
   </div>
 </template>
 
@@ -39,12 +38,21 @@ export default {
     }
   },
   created() {
-    this.get_days();
+    this.getDays();
   },
   methods: {
-    get_days() {
+    getDays() {
       this.days_max = new Date(this.year, this.month, 0).getDate();
-    }
+    },
+    getBirthday() {
+      this.$store.dispatch('step1Answer/inputBirthday',
+        {
+          year: select_year.value,
+          month: select_month.value,
+          day: select_day.value,
+        }
+      )
+    },
   }
 }
 </script>
