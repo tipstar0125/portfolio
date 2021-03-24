@@ -10,6 +10,7 @@
               </div>
               {{ sex }}
               {{ birthday }}
+              {{ consult }}
             </li>
         </ul>
       </div>
@@ -41,6 +42,7 @@ export default {
       const birthday = this.$store.getters['step1Answer/birthday']
       return `${birthday.year}年${birthday.month}月${birthday.day}日`
     },
+    consult() {return this.$store.getters['step3Answer/consult']},
   },
 }
 </script>

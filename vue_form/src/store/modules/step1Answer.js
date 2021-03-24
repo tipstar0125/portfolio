@@ -1,9 +1,9 @@
 const state = {
   sex: '',
   birthday: {
-    year: '',
-    month: '',
-    day: '',
+    year: 2018,
+    month: 1,
+    day: 1,
   },
 }
   

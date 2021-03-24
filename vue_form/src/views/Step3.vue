@@ -8,12 +8,11 @@
               <div class="question-item mb-3">
                 -ご相談内容-
               </div>
-              <textarea name="" id="" rows="10" class="form-control"></textarea>
+              <textarea v-model="consult" rows="10" class="form-control"></textarea>
             </li>
         </ul>
       </div>
     </div>
-
     <div class="row justify-content-center">
       <BackButton link="/step2"/>
       <ForwardButton link="/step4" class="ml-2"/>
@@ -23,7 +22,6 @@
 
 
 <script>
-// @ is an alias to /src
 import Question from '@/components/Question.vue'
 import ForwardButton from '@/components/ForwardButton.vue'
 import BackButton from '@/components/BackButton.vue'
@@ -35,7 +33,17 @@ export default {
     Question,
     ForwardButton,
     BackButton,
-  }
+  },
+  computed: {
+    consult: {
+      get() {
+        return this.$store.getters['step3Answer/consult']
+      },
+      set(value) {
+        this.$store.dispatch('step3Answer/inputConsult', value)
+      }
+    }
+  },
 }
 </script>
 

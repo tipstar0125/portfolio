@@ -1,7 +1,7 @@
 <template>
   <div class="row my-3 align-items-center">
 
-    <select v-model="year" @change="getDays(); getBirthday();" class="btn btn-outline-info ml-3" id="select_year" name="year">
+    <select v-model="birthday.year" @change="getDays(); inputBirthday();" class="btn btn-outline-info ml-3" id="select_year" name="year">
       <option v-for="n in 50" :value="n + 1980">
         {{ n + 1980 }}
         <span v-if="n + 1980 - 1988 <= 0">
@@ -16,11 +16,11 @@
       </option>
     </select><span class="ml-3">年</span>
 
-    <select v-model="month" @change="getDays(); getBirthday();" class="btn btn-outline-info ml-3" id="select_month" name="month">
+    <select v-model="birthday.month" @change="getDays(); inputBirthday();" class="btn btn-outline-info ml-3" id="select_month" name="month">
       <option v-for="n in 12" :value="n">{{ n }}</option>
     </select><span class="ml-3">月</span>
 
-    <select v-model="day" @change="getBirthday();" class="btn btn-outline-info ml-3" id="select_day" name="day">
+    <select v-model="birthday.day" @change="inputBirthday();" class="btn btn-outline-info ml-3" id="select_day" name="day">
       <option v-for="n in days_max" :value="n">{{ n }}</option>
     </select><span class="ml-3">日</span>
   </div>
@@ -29,11 +29,18 @@
 <script>
 export default {
   name: 'YearMonthDayDropdown',
+  props: {
+      birthday: {
+          type: Object,
+          default: {
+            year: 2018,
+            month: 1,
+            day: 1,
+          },
+      }
+  },
   data() {
     return {
-      year: 2018,
-      month: 1,
-      day: 1,
       days_max: 31,
     }
   },
@@ -42,14 +49,14 @@ export default {
   },
   methods: {
     getDays() {
-      this.days_max = new Date(this.year, this.month, 0).getDate();
+      this.days_max = new Date(this.birthday.year, this.birthday.month, 0).getDate();
     },
-    getBirthday() {
-      this.$store.dispatch('step1Answer/inputBirthday',
+    inputBirthday() {
+      this.$emit('inputBirthday',
         {
-          year: select_year.value,
-          month: select_month.value,
-          day: select_day.value,
+          year: Number(select_year.value),
+          month: Number(select_month.value),
+          day: Number(select_day.value),
         }
       )
     },

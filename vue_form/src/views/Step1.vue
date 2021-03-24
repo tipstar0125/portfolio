@@ -8,13 +8,14 @@
               <div class="question-item">
                 -性別-
               </div>
-              <SexSelect/>
+              <SexSelect :sex="sex" @checkSex="checkSex"/>
             </li>
             <li class="text-left my-2">
               <div class="question-item">
                 -生年月日-
               </div>
-              <YearMonthDayDropdown/>
+              <YearMonthDayDropdown :birthday="birthday"  @inputBirthday="inputBirthday"/>
+              <!-- <YearMonthDayDropdown @inputBirthday="inputBirthday"/> -->
             </li>
         </ul>
       </div>
@@ -27,7 +28,6 @@
 </template>
 
 <script>
-// @ is an alias to /src
 import Question from '@/components/Question.vue'
 import SexSelect from '@/components/SexSelect.vue'
 import YearMonthDayDropdown from '@/components/YearMonthDayDropdown.vue'
@@ -40,6 +40,24 @@ export default {
     SexSelect,
     YearMonthDayDropdown,
     ForwardButton,
+  },
+  computed: {
+    sex() { return this.$store.getters['step1Answer/sex'] },
+    birthday() { return this.$store.getters['step1Answer/birthday'] },
+  },
+  methods: {
+    checkSex(selectedSex) {
+      this.$store.dispatch('step1Answer/checkSex', selectedSex)
+    },
+    inputBirthday(birthday) {
+      this.$store.dispatch('step1Answer/inputBirthday',
+        {
+          year: birthday.year,
+          month: birthday.month,
+          day: birthday.day,
+        }
+      )
+    },
   },
 }
 </script>
