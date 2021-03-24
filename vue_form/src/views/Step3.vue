@@ -6,7 +6,7 @@
         <ul class="text-left list-style-none">
             <li class="text-left my-2">
               <div class="question-item mb-3">
-                -ご相談内容-
+                ご相談内容
               </div>
               <textarea v-model="consult" rows="10" class="form-control"></textarea>
             </li>
@@ -51,6 +51,14 @@ export default {
 
 .question-item {
   color: #17a2b8;
+}
+
+.question-item:before {
+  content: '-';
+}
+
+.question-item:after {
+  content: '-';
 }
 
 .list-style-none {

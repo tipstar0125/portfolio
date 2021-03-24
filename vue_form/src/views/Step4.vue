@@ -5,12 +5,28 @@
       <div class="card-body">
         <ul class="text-left list-style-none">
             <li class="text-left my-2">
-              <div class="question-item mb-3">
-                aaa
+              <div class="question-item mb-1">
+                性別
               </div>
-              {{ sex }}
-              {{ birthday }}
-              {{ consult }}
+                {{ sex }}
+            </li>
+            <li class="text-left my-2">
+              <div class="question-item mb-1">
+                生年月日
+              </div>
+                {{ birthday }}
+            </li>
+            <li v-for="question in questions" class="text-left my-2">
+              <div class="question-item mb-1">
+                {{ question.item }}
+              </div>
+                {{ question.answer }}
+            </li>
+            <li class="text-left my-2">
+              <div class="question-item mb-1">
+                ご相談内容
+              </div>
+                {{ consult }}
             </li>
         </ul>
       </div>
@@ -42,7 +58,8 @@ export default {
       const birthday = this.$store.getters['step1Answer/birthday']
       return `${birthday.year}年${birthday.month}月${birthday.day}日`
     },
-    consult() {return this.$store.getters['step3Answer/consult']},
+    questions() { return this.$store.getters['step2Answer/questions'] },
+    consult() { return this.$store.getters['step3Answer/consult'] },
   },
 }
 </script>
@@ -51,6 +68,14 @@ export default {
 
 .question-item {
   color: #17a2b8;
+}
+
+.question-item:before {
+  content: '-';
+}
+
+.question-item:after {
+  content: '-';
 }
 
 .list-style-none {

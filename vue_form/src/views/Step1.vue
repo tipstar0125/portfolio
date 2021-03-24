@@ -6,13 +6,13 @@
         <ul class="text-left list-style-none">
             <li class="text-left my-2">
               <div class="question-item">
-                -性別-
+                性別
               </div>
               <SexSelect :sex="sex" @checkSex="checkSex"/>
             </li>
             <li class="text-left my-2">
               <div class="question-item">
-                -生年月日-
+                生年月日
               </div>
               <YearMonthDayDropdown :birthday="birthday"  @inputBirthday="inputBirthday"/>
               <!-- <YearMonthDayDropdown @inputBirthday="inputBirthday"/> -->
@@ -66,6 +66,14 @@ export default {
 
 .question-item {
   color: #17a2b8;
+}
+
+.question-item:before {
+  content: '-';
+}
+
+.question-item:after {
+  content: '-';
 }
 
 .list-style-none {
