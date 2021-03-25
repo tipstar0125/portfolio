@@ -11,14 +11,22 @@ const getters = {
 }
   
 const actions = {
-  saveStep2({ commit }, answers) {
-    commit('saveStep2', answers)
+  saveStep2({ commit }, answer) {
+    commit('saveStep2', answer)
   },
 }
 
 const mutations = {
-  saveStep2 (state, answers) {
-    state.questions = answers
+  saveStep2 (state, answer) {
+
+    const index = Number(Object.keys(answer)[0])
+    const yesno = answer[index]
+
+    state.questions[index].answer = yesno
+
+    if (index < state.questions.length-1) {
+      state.questions[index+1].isVisible = true
+    }
   },
 }
 

@@ -29,25 +29,13 @@
 <script>
 export default {
   name: 'QuestionItem',
-  // data() {
-  //   return {
-  //     questions: [
-  //       {item:'現在、生命保険に加入されていますか？', isVisible: true, answer: ''},
-  //       {item:'現在、入院中ですか？または、最近3か月以内に医師の診察・検査の結果、入院・手術をすすめられたことはありますか？', isVisible: false, answer: ''},
-  //       {item:'過去5以内に、病気やけがで、手術をうけたこと、または継続して7日以上の入院をしたことがありますか？', isVisible: false, answer: ''},
-  //     ],
-  //   }
-  // },
   computed: {
     questions() { return this.$store.getters['step2Answer/questions'] },
   },
   methods: {
-    radioClick(n, yesno) {
-      if (n < this.questions.length-1) {
-        this.questions[n+1].isVisible = true
-      }
-      this.questions[n].answer = yesno
-      this.$store.dispatch('step2Answer/saveStep2', this.questions)
+    radioClick(index, yesno) {
+      const answer = {[index]: yesno}
+      this.$emit('radioClick', answer)
     }
   }
 }

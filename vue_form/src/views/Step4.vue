@@ -8,25 +8,25 @@
               <div class="question-item mb-1">
                 性別
               </div>
-                {{ sex }}
+              <p class="indent-1">{{ sex }}</p>
             </li>
             <li class="text-left my-2">
               <div class="question-item mb-1">
                 生年月日
               </div>
-                {{ birthday }}
+                <p class="indent-1">{{ birthday }}</p>
             </li>
             <li v-for="question in questions" class="text-left my-2">
               <div class="question-item mb-1">
                 {{ question.item }}
               </div>
-                {{ question.answer }}
+                <p class="indent-1">{{ question.answer }}</p>
             </li>
             <li class="text-left my-2">
               <div class="question-item mb-1">
                 ご相談内容
               </div>
-                {{ consult }}
+                <p class="indent-1 new-line">{{ consult }}</p>
             </li>
         </ul>
       </div>
@@ -81,6 +81,14 @@ export default {
 .list-style-none {
   list-style: none;
   padding-left: 0;
+}
+
+.indent-1 {
+  padding-left:1rem;
+}
+
+.new-line {
+  white-space: pre-wrap;
 }
 
 </style>

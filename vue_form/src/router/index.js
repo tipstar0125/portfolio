@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-// import Step1 from '../views/Step1.vue'
 
 Vue.use(VueRouter)
 
@@ -8,7 +7,6 @@ const routes = [
   {
     path: '/',
     name: 'Step1',
-    // component: Step1,
     component: () => import('../views/Step1.vue'),
   },
   {

@@ -15,7 +15,6 @@
                 生年月日
               </div>
               <YearMonthDayDropdown :birthday="birthday"  @inputBirthday="inputBirthday"/>
-              <!-- <YearMonthDayDropdown @inputBirthday="inputBirthday"/> -->
             </li>
         </ul>
       </div>
