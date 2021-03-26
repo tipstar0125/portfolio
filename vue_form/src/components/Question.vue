@@ -25,13 +25,13 @@ export default {
   height: var(--box-height);
 	position: relative;
 	text-align: center;
-  border-bottom: solid 1px #17a2b8;
-  background-color: #aae3ec;
+  border-bottom: solid 1px rgb(1, 209, 178);
+  background-color: rgb(215, 243, 243);
 }
 
 .step {
 	color: white;
-	background-color: #47acff;
+	background-color: rgb(50, 152, 220);
 	position: absolute;
   width: 80px;
   height: 50%;

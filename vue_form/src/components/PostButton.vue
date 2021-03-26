@@ -1,6 +1,6 @@
 <template>
     <div>
-      <button class="btn btn-info">送信</button>
+      <button class="btn btn-color">送信</button>
     </div>
 </template>
 
@@ -11,4 +11,10 @@ export default {
 </script>
 
 <style scoped>
+
+.btn-color {
+  background-color: rgb(1, 209, 178);
+  color: white;
+}
+
 </style>
