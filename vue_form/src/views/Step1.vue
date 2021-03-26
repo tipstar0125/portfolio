@@ -1,7 +1,7 @@
 <template>
   <div class="container mt-5">
-    <div class="card mb-3">
-      <Question stepNumber="1" question="お客様の情報を入力してください"/>
+    <div class="card mb-3 card-border">
+      <Question stepNumber="1" question="お客様の情報を入力してください" icon="fas fa-address-card"/>
       <div class="card-body">
         <ul class="text-left list-style-none">
             <li class="text-left my-2">
@@ -62,30 +62,4 @@ export default {
 </script>
 
 <style scoped>
-
-.question-item {
-  color: #17a2b8;
-}
-
-.question-item:before {
-  content: '-';
-}
-
-.question-item:after {
-  content: '-';
-}
-
-.list-style-none {
-  list-style: none;
-  padding-left: 0;
-}
-
-.v-enter {
-  opacity: 0;
-}
-
-.v-enter-active {
-  transition: 0.5s;
-}
-
 </style>

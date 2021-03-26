@@ -49,8 +49,12 @@ export default {
   },
   methods: {
     getDays() {
-      console.log(this.birthday.month)
-      this.days_max = new Date(Number(select_year.value), Number(select_month.value), 0).getDate();
+      try {
+        this.days_max = new Date(Number(select_year.value), Number(select_month.value), 0).getDate();
+      } catch (e) {
+        this.days_max = new Date(this.birthday.year, this.birthday.month, 0).getDate();
+      }
+      
     },
     inputBirthday() {
       this.$emit('inputBirthday',

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <transition v-for="(question, index) in questions" :key="index">
+    <transition v-for="(question, index) in questions" :key="'question' + index">
       <li v-if="question.isVisible" class="text-left my-2">
           <div class="question-item">
           {{ question.item }}
@@ -42,18 +42,6 @@ export default {
 </script>
 
 <style scoped>
-
-.question-item {
-  color: #17a2b8;
-}
-
-.question-item:before {
-  content: '-';
-}
-
-.question-item:after {
-  content: '-';
-}
 
 .v-enter {
   opacity: 0;

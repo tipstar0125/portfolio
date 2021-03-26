@@ -1,0 +1,20 @@
+.card-border {
+  border: solid 1px #17a2b8;
+}
+
+.question-item {
+    color: #17a2b8;
+  }
+  
+.question-item:before {
+  content: '-';
+}
+
+.question-item:after {
+  content: '-';
+}
+
+.list-style-none {
+  list-style: none;
+  padding-left: 0;
+}

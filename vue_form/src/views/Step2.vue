@@ -1,7 +1,7 @@
 <template>
   <div class="container mt-5">
-    <div class="card mb-3">
-      <Question stepNumber="2" question="以下にお答えください"/>
+    <div class="card mb-3 card-border">
+      <Question stepNumber="2" question="以下にお答えください" icon="fas fa-chalkboard-teacher"/>
       <div class="card-body">
         <ul class="text-left list-style-none">
           <QuestionItem :questions="questions" @radioClick="radioClick"/>
@@ -42,10 +42,4 @@ export default {
 </script>
 
 <style scoped>
-
-.list-style-none {
-  list-style: none;
-  padding-left: 0;
-}
-
 </style>

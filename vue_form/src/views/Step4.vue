@@ -1,7 +1,7 @@
 <template>
   <div class="container mt-5">
-    <div class="card mb-3">
-      <Question stepNumber="4" question="以下の内容をご確認ください"/>
+    <div class="card mb-3 card-border">
+      <Question stepNumber="4" question="以下の内容をご確認ください" icon="fas fa-file-alt"/>
       <div class="card-body">
         <ul class="text-left list-style-none">
             <li class="text-left my-2">
@@ -65,23 +65,6 @@ export default {
 </script>
 
 <style scoped>
-
-.question-item {
-  color: #17a2b8;
-}
-
-.question-item:before {
-  content: '-';
-}
-
-.question-item:after {
-  content: '-';
-}
-
-.list-style-none {
-  list-style: none;
-  padding-left: 0;
-}
 
 .indent-1 {
   padding-left:1rem;
