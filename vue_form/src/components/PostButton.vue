@@ -1,15 +1,12 @@
 <template>
     <div>
-      <router-link :to="link" class="btn btn-color">次へ進む<span class="ml-2">&gt;</span></router-link>
+      <button class="btn btn-color">送信</button>
     </div>
 </template>
 
 <script>
 export default {
-  name: 'ForwardButton',
-  props: {
-    link: String,
-  },
+  name: 'PostButton',
 }
 </script>
 

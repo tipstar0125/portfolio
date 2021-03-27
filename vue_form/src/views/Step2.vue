@@ -1,10 +1,10 @@
 <template>
   <div class="container mt-5">
-    <div class="card mb-3">
-      <Question stepNumber="2" question="以下にお答えください"/>
+    <div class="card mb-3 card-border">
+      <Question stepNumber="2" question="以下にお答えください" icon="fas fa-chalkboard-teacher"/>
       <div class="card-body">
         <ul class="text-left list-style-none">
-          <QuestionItem/>
+          <QuestionItem :questions="questions" @radioClick="radioClick"/>
         </ul>
       </div>
     </div>
@@ -17,7 +17,6 @@
 </template>
 
 <script>
-// @ is an alias to /src
 import Question from '@/components/Question.vue'
 import QuestionItem from '@/components/QuestionItem.vue'
 import ForwardButton from '@/components/ForwardButton.vue'
@@ -31,14 +30,16 @@ export default {
     ForwardButton,
     BackButton,
   },
+  computed: {
+    questions() { return this.$store.getters['step2Answer/questions'] },
+  },
+  methods: {
+    radioClick(answer) {
+      this.$store.dispatch('step2Answer/saveStep2', answer)
+    }
+  }
 }
 </script>
 
 <style scoped>
-
-.list-style-none {
-  list-style: none;
-  padding-left: 0;
-}
-
 </style>
