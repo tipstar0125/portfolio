@@ -14,7 +14,7 @@
               <div class="question-item">
                 生年月日
               </div>
-              <YearMonthDayDropdown :birthday="birthday"  @inputBirthday="inputBirthday"/>
+              <BirthdaySelect :birthday="birthday"  @inputBirthday="inputBirthday"/>
             </li>
         </ul>
       </div>
@@ -29,7 +29,7 @@
 <script>
 import Question from '@/components/Question.vue'
 import SexSelect from '@/components/SexSelect.vue'
-import YearMonthDayDropdown from '@/components/YearMonthDayDropdown.vue'
+import BirthdaySelect from '@/components/BirthdaySelect.vue'
 import ForwardButton from '@/components/ForwardButton.vue'
 
 export default {
@@ -37,7 +37,7 @@ export default {
   components: {
     Question,
     SexSelect,
-    YearMonthDayDropdown,
+    BirthdaySelect,
     ForwardButton,
   },
   computed: {

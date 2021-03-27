@@ -7,14 +7,14 @@
           </div>
           <div class="row my-3">
               <div class="form-check ml-3">
-              <input v-if="question.answer=='はい'" @click="radioClick(index, 'はい')" class="form-check-input" type="radio" :name="'yesno' + index" :id="'yes' + index" value="yes" checked>
+              <input v-if="question.answer==='はい'" @click="radioClick(index, 'はい')" class="form-check-input" type="radio" :name="'yesno' + index" :id="'yes' + index" value="yes" checked>
               <input v-else @click="radioClick(index, 'はい')" class="form-check-input" type="radio" :name="'yesno' + index" :id="'yes' + index" value="yes">
               <label class="form-check-label" :for="'yes' + index">
                   はい
               </label>
               </div>
               <div class="form-check ml-3">
-              <input v-if="question.answer=='いいえ'" @click="radioClick(index, 'いいえ')" class="form-check-input" type="radio" :name="'yesno' + index" :id="'no' + index" value="no" checked>
+              <input v-if="question.answer==='いいえ'" @click="radioClick(index, 'いいえ')" class="form-check-input" type="radio" :name="'yesno' + index" :id="'no' + index" value="no" checked>
               <input v-else @click="radioClick(index, 'いいえ')" class="form-check-input" type="radio" :name="'yesno' + index" :id="'no' + index" value="no">
               <label class="form-check-label" :for="'no' + index">
                   いいえ

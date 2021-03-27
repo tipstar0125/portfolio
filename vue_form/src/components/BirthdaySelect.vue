@@ -28,7 +28,7 @@
 
 <script>
 export default {
-  name: 'YearMonthDayDropdown',
+  name: 'BirthdaySelect',
   props: {
       birthday: {
           type: Object,
