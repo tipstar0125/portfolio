@@ -33,15 +33,11 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-
-interface Todo {
-  task: string
-  isDone: boolean
-}
+import { Todo } from '@/types/todo.interface';
 
 @Component
 export default class TodoList extends Vue {
-  newTask: string | null = '';
+  newTask!: string;
   todos: Todo[] = [];
 
   addTask(): void {
