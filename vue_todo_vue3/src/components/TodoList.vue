@@ -26,7 +26,7 @@
     </table>
 
     <h3>新規タスクの追加</h3>
-    <input type="text" v-model="newTask" style="width: 300px;">
+    <input type="text" v-model="newTask" class="newtask">
     <input type="button" value="追加" @click="addTask">
   </div>
 </template>
@@ -62,4 +62,11 @@ export default defineComponent({
 </script>
 
 <style scoped>
+table {
+  border-spacing: 8px 2px;
+}
+
+input.newtask {
+  width: 300px;
+}
 </style>
