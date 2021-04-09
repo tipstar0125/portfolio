@@ -20,7 +20,7 @@
           <td>{{ index }}</td>
           <td>{{ todo.task }}</td>
           <td><button>{{ todo.isDone ? '完了' : '作業中' }}</button></td>
-          <td><button>削除</button></td>
+          <td><button @click="deleteTask(index)">削除</button></td>
         </tr>
       </tbody>
     </table>
@@ -40,6 +40,10 @@ export default class TodoList extends Vue {
   newTask!: string;
   todos: Todo[] = [];
 
+  created(): void {
+    this.newTask = '';
+  }
+
   addTask(): void {
     if (this.newTask) {
       const todo: Todo = {
@@ -49,6 +53,10 @@ export default class TodoList extends Vue {
       this.todos.push(todo);
       this.newTask = '';
     }
+  }
+
+  deleteTask(index: number): void {
+    this.todos.splice(index, 1);
   }
 
 }
