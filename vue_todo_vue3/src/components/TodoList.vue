@@ -20,7 +20,7 @@
           <td>{{ index }}</td>
           <td>{{ todo.task }}</td>
           <td><button>{{ todo.isDone ? '完了' : '作業中' }}</button></td>
-          <td><button>削除</button></td>
+          <td><button @click="deleteTask(index)">削除</button></td>
         </tr>
       </tbody>
     </table>
@@ -50,12 +50,17 @@ export default defineComponent({
         todos.value.push(todo);
         newTask.value = '';
       }
-    } 
+    }
+    
+    const deleteTask = (index: number): void => {
+      todos.value.splice(index, 1);
+    }
 
     return {
       newTask,
       todos,
       addTask,
+      deleteTask,
     }
   }
 });
