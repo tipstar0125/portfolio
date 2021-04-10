@@ -2,10 +2,9 @@
   <div class="todo">
     <h2>ToDoリスト</h2>
 
-    <label><input type="radio" name="status" value="all" checked>すべて</label>
-    <label><input type="radio" name="status" value="working">作業中</label>
-    <label><input type="radio" name="status" value="completed">完了</label>
-
+    <label><input type="radio" name="show-range" value="all" v-model="showRange">すべて</label>
+    <label><input type="radio" name="show-range" value="working" v-model="showRange">作業中</label>
+    <label><input type="radio" name="show-range" value="completed" v-model="showRange">完了</label>
     <table>
       <thead>
         <tr>
@@ -16,11 +15,11 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(todo, index) in todos" :key="'todo' + index">
-          <td>{{ index }}</td>
+        <tr v-for="(todo, index) in filteredTodos" :key="'todo' + index">
+          <td>{{ todo.id }}</td>
           <td>{{ todo.task }}</td>
-          <td><button @click="changeStatus(index)">{{ todo.isDone ? '完了' : '作業中' }}</button></td>
-          <td><button @click="deleteTask(index)">削除</button></td>
+          <td><button @click="changeStatus(todo.id)">{{ todo.isDone ? '完了' : '作業中' }}</button></td>
+          <td><button @click="deleteTask(todo.id)">削除</button></td>
         </tr>
       </tbody>
     </table>
@@ -39,6 +38,7 @@ import { Todo } from '@/types/todo.interface';
 export default class TodoList extends Vue {
   newTask!: string;
   todos: Todo[] = [];
+  showRange = 'all';
 
   created(): void {
     this.newTask = '';
@@ -47,6 +47,7 @@ export default class TodoList extends Vue {
   addTask(): void {
     if (this.newTask) {
       const todo: Todo = {
+        id: this.todos.length,
         task: this.newTask,
         isDone: false
       }
@@ -57,10 +58,23 @@ export default class TodoList extends Vue {
 
   deleteTask(index: number): void {
     this.todos.splice(index, 1);
+    this.todos.forEach((todo, index) => {
+      todo.id = index;
+    })
   }
 
   changeStatus(index: number): void {
-      this.todos[index].isDone = !(this.todos[index].isDone)
+      this.todos[index].isDone = !(this.todos[index].isDone);
+  }
+
+  get filteredTodos(): Todo[] {
+    if (this.showRange === 'all') {
+      return this.todos;
+    } else if (this.showRange == 'working') {
+      return this.todos.filter(todo => !(todo.isDone));
+    } else {
+      return this.todos.filter(todo => todo.isDone);
+    }
   }
 
 }
