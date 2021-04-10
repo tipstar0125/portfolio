@@ -19,7 +19,7 @@
         <tr v-for="(todo, index) in todos" :key="'todo' + index">
           <td>{{ index }}</td>
           <td>{{ todo.task }}</td>
-          <td><button>{{ todo.isDone ? '完了' : '作業中' }}</button></td>
+          <td><button @click="changeStatus(index)">{{ todo.isDone ? '完了' : '作業中' }}</button></td>
           <td><button @click="deleteTask(index)">削除</button></td>
         </tr>
       </tbody>
@@ -57,6 +57,10 @@ export default class TodoList extends Vue {
 
   deleteTask(index: number): void {
     this.todos.splice(index, 1);
+  }
+
+  changeStatus(index: number): void {
+      this.todos[index].isDone = !(this.todos[index].isDone)
   }
 
 }
