@@ -19,7 +19,7 @@
         <tr v-for="(todo, index) in todos" :key="'todo' + index">
           <td>{{ index }}</td>
           <td>{{ todo.task }}</td>
-          <td><button>{{ todo.isDone ? '完了' : '作業中' }}</button></td>
+          <td><button @click="changeStatus(index)">{{ todo.isDone ? '完了' : '作業中' }}</button></td>
           <td><button @click="deleteTask(index)">削除</button></td>
         </tr>
       </tbody>
@@ -56,11 +56,16 @@ export default defineComponent({
       todos.value.splice(index, 1);
     }
 
+    const changeStatus = (index: number): void => {
+      todos.value[index].isDone = !(todos.value[index].isDone);
+    }
+
     return {
       newTask,
       todos,
       addTask,
       deleteTask,
+      changeStatus,
     }
   }
 });
