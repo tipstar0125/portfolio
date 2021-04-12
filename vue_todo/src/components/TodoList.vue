@@ -70,7 +70,7 @@ export default class TodoList extends Vue {
   get filteredTodos(): Todo[] {
     if (this.showRange === 'all') {
       return this.todos;
-    } else if (this.showRange == 'working') {
+    } else if (this.showRange === 'working') {
       return this.todos.filter(todo => !(todo.isDone));
     } else {
       return this.todos.filter(todo => todo.isDone);
