@@ -2,9 +2,9 @@
   <div class="todo">
     <h2>ToDoリスト</h2>
 
-    <label><input type="radio" name="status" value="all" checked>すべて</label>
-    <label><input type="radio" name="status" value="working">作業中</label>
-    <label><input type="radio" name="status" value="completed">完了</label>
+    <label><input type="radio" name="show-range" value="all" v-model="showRange">すべて</label>
+    <label><input type="radio" name="show-range" value="working" v-model="showRange">作業中</label>
+    <label><input type="radio" name="show-range" value="completed" v-model="showRange">完了</label>
 
     <table>
       <thead>
@@ -16,11 +16,11 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(todo, index) in todos" :key="'todo' + index">
-          <td>{{ index }}</td>
+        <tr v-for="(todo, index) in filteredTodos" :key="'todo' + index">
+          <td>{{ todo.id }}</td>
           <td>{{ todo.task }}</td>
-          <td><button @click="changeStatus(index)">{{ todo.isDone ? '完了' : '作業中' }}</button></td>
-          <td><button @click="deleteTask(index)">削除</button></td>
+          <td><button @click="changeStatus(todo.id)">{{ todo.isDone ? '完了' : '作業中' }}</button></td>
+          <td><button @click="deleteTask(todo.id)">削除</button></td>
         </tr>
       </tbody>
     </table>
@@ -32,7 +32,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, computed, onMounted } from 'vue';
 import { Todo } from '@/types/todo.interface';
 
 export default defineComponent({
@@ -40,10 +40,16 @@ export default defineComponent({
   setup() {
     const newTask = ref<string>();
     const todos = ref<Todo[]>([]);
+    let showRange = ref<string>();
+
+    onMounted(() => {
+      showRange.value = 'all';
+    })
 
     const addTask = (): void => {
       if (newTask.value) {
         const todo: Todo = {
+          id: todos.value.length,
           task: newTask.value,
           isDone: false
         }
@@ -54,18 +60,33 @@ export default defineComponent({
     
     const deleteTask = (index: number): void => {
       todos.value.splice(index, 1);
+      todos.value.forEach((todo, index) => {
+        todo.id = index;
+      })
     }
 
     const changeStatus = (index: number): void => {
       todos.value[index].isDone = !(todos.value[index].isDone);
     }
 
+    const filteredTodos = computed(() => {
+      if (showRange.value === 'all') {
+        return todos.value;
+      } else if (showRange.value === 'working') {
+        return todos.value.filter(todo => !(todo.isDone));
+      } else {
+        return todos.value.filter(todo => todo.isDone);
+      }
+    });
+
     return {
       newTask,
       todos,
+      showRange,
       addTask,
       deleteTask,
       changeStatus,
+      filteredTodos
     }
   }
 });
