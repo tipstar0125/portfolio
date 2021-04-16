@@ -34,13 +34,14 @@
 <script lang="ts">
 import { defineComponent, ref, computed, onMounted } from 'vue';
 import { Todo } from '@/types/todo.interface';
+import { useStore } from "vuex"
 
 export default defineComponent({
   
   setup() {
     const newTask = ref<string>();
-    const todos = ref<Todo[]>([]);
     let showRange = ref<string>();
+    const store = useStore()
 
     onMounted(() => {
       showRange.value = 'all';
@@ -48,40 +49,32 @@ export default defineComponent({
 
     const addTask = (): void => {
       if (newTask.value) {
-        const todo: Todo = {
-          id: todos.value.length,
-          task: newTask.value,
-          isDone: false
-        }
-        todos.value.push(todo);
+        store.dispatch('addTask', newTask.value);
         newTask.value = '';
       }
     }
     
     const deleteTask = (index: number): void => {
-      todos.value.splice(index, 1);
-      todos.value.forEach((todo, index) => {
-        todo.id = index;
-      })
+      store.dispatch('deleteTask', index);
     }
 
     const changeStatus = (index: number): void => {
-      todos.value[index].isDone = !(todos.value[index].isDone);
+      store.dispatch('changeStatus', index);
     }
 
     const filteredTodos = computed(() => {
+      const todos = store.getters.getTodos;
       if (showRange.value === 'all') {
-        return todos.value;
+        return todos;
       } else if (showRange.value === 'working') {
-        return todos.value.filter(todo => !(todo.isDone));
+        return todos.filter((todo: Todo) => !(todo.isDone));
       } else {
-        return todos.value.filter(todo => todo.isDone);
+        return todos.filter((todo: Todo) => todo.isDone);
       }
     });
 
     return {
       newTask,
-      todos,
       showRange,
       addTask,
       deleteTask,
