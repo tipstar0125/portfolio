@@ -34,7 +34,8 @@
 <script lang="ts">
 import { defineComponent, ref, computed, onMounted } from 'vue';
 import { Todo } from '@/types/todo.interface';
-import { useStore } from "vuex"
+import { useStore } from "@/store/index";
+import * as ActionTypes from "@/store/actionTypes"
 
 export default defineComponent({
   
@@ -47,19 +48,19 @@ export default defineComponent({
       showRange.value = 'all';
     })
 
-    const addTask = (): void => {
+    const addTask = async () => {
       if (newTask.value) {
-        store.dispatch('addTask', newTask.value);
+        await store.dispatch(ActionTypes.ADD_TODO_ITEM, newTask.value);
         newTask.value = '';
       }
     }
     
-    const deleteTask = (index: number): void => {
-      store.dispatch('deleteTask', index);
+    const deleteTask = async (index: number) => {
+      await store.dispatch(ActionTypes.DELETE_TODO_ITEM, index);
     }
 
-    const changeStatus = (index: number): void => {
-      store.dispatch('changeStatus', index);
+    const changeStatus = async (index: number) => {
+      await store.dispatch(ActionTypes.CHANGE_STATUS, index);
     }
 
     const filteredTodos = computed(() => {

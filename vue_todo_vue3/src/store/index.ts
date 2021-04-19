@@ -1,19 +1,28 @@
-import { createStore } from 'vuex'
+import { InjectionKey } from 'vue';
+import { createStore, Store, useStore as baseUseStore } from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
 import { Todo } from '@/types/todo.interface';
+import * as MutationTypes from "./mutationTypes";
+import * as ActionTypes from "./actionTypes";
 
-export const store = createStore({
+type State = {
+  todos: Todo[];
+};
+
+export const key: InjectionKey<Store<State>> = Symbol();
+
+export const store = createStore<State>({
   strict: process.env.NODE_ENV !== 'production',
   state: {
     todos: [] as Todo[]
   },
   getters: {
-    getTodos: (state) => {
-      return state.todos;
+    getTodos: store => {
+      return store.todos;
     }
   },
   mutations: {
-    addTask: (state, newTask: string): void => {
+    [MutationTypes.ADD_TODO_ITEM]: (state, newTask: string): void => {
       const todo = {
         id: state.todos.length,
         task: newTask,
@@ -21,25 +30,25 @@ export const store = createStore({
       };
       state.todos.push(todo);
     },
-    deleteTask: (state, index: number): void => {
+    [MutationTypes.DELETE_TODO_ITEM]: (state, index: number): void => {
       state.todos.splice(index, 1);
       state.todos.forEach((todo, index): void => {
         todo.id = index;
       })
     },
-    changeStatus: (state, index: number): void => {
+    [MutationTypes.CHANGE_STATUS]: (state, index: number): void => {
       state.todos[index].isDone = !(state.todos[index].isDone);
     },
   },
   actions: {
-    addTask: (context, newTask: string): void => {
-      context.commit('addTask', newTask);
+    [ActionTypes.ADD_TODO_ITEM] ({ commit }, newTask ) {
+      commit(ActionTypes.ADD_TODO_ITEM, newTask);
     },
-    deleteTask: (context, index: number): void => {
-      context.commit('deleteTask', index);
+    [ActionTypes.DELETE_TODO_ITEM] ({ commit }, index ) {
+      commit(ActionTypes.DELETE_TODO_ITEM, index);
     },
-    changeStatus: (context, index: number): void => {
-      context.commit('changeStatus', index);
+    [ActionTypes.CHANGE_STATUS] ({ commit }, index ) {
+      commit(ActionTypes.CHANGE_STATUS, index);
     },
   },
   modules: {
@@ -47,4 +56,8 @@ export const store = createStore({
   plugins: [
     createPersistedState(),
   ],
-})
+});
+
+export const useStore = () => {
+  return baseUseStore(key);
+}
