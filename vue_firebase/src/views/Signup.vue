@@ -36,8 +36,16 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { useStore } from "@/store/index";
+import * as ActionTypes from "@/store/actionTypes"
 import firebase from 'firebase/app'
 import 'firebase/auth'
+
+type User = {
+   uid: string | null,
+   email: string | null,
+   displayName: string | null
+}
 
 
 export default defineComponent({
@@ -46,24 +54,31 @@ export default defineComponent({
     const email = ref<string>('');
     const password = ref<string>('');
     const router = useRouter();
+    const store = useStore();
 
     const signUp = () => {
       firebase.auth().createUserWithEmailAndPassword(email.value, password.value)
       // eslint-disable-next-line
       .then((response: any) => {
+        const currentUser: User | null = response.user
+        console.log('aaa')
+        console.log(currentUser)
+        console.log(typeof(currentUser))
+        console.log('aaa')
         response.user.updateProfile({
           displayName: user.value
         });
 
       })
       .then(() => {
-        // eslint-disable-next-line
-        const currentUser: any = firebase.auth().currentUser;
+
+        const currentUser: User | null = firebase.auth().currentUser;
         if (currentUser != null) {
           console.log(currentUser);
+          console.log(typeof(currentUser))
           console.log(currentUser.displayName);
         }
-        router.push('/');
+        // router.push('/');
       })
       .catch(err => {
         console.log(err);
@@ -71,10 +86,13 @@ export default defineComponent({
     }
 
     const fetch = () => {
-      // eslint-disable-next-line
-      const user: any = firebase.auth().currentUser;
-      if (user != null) {
-        console.log(user.displayName);
+      const currentUser: User | null = firebase.auth().currentUser;
+      if (currentUser != null) {
+        console.log(currentUser.displayName);
+        store.dispatch(ActionTypes.FETCH_USER, 'yok');
+        const aiueo = store.getters.getUser;
+        console.log(aiueo);
+        console.log('aaaa');
       }
     }
 
