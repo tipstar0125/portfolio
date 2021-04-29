@@ -29,7 +29,7 @@
         <button class="btn btn-primary btn-lg my-3">新規登録</button>
       </form>
       <p>
-        <router-link to="/signin">ログインはこちらから</router-link>
+        <router-link to="/signin">サインインはこちらから</router-link>
       </p>
     </div>
   </div>
@@ -55,9 +55,18 @@ export default {
     signUp() {
       firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
       .then((response) => {
-        response.user.updateProfile({
+        const user = response.user
+        user.updateProfile({
           displayName: this.user
         })
+
+        user.sendEmailVerification().then(() => {
+          alert('確認メールを送信しました。メールアドレスをご確認ください')
+        })
+
+      })
+      .then(() => {
+
         const authInfo = {
           user: this.user,
           email: this.email,

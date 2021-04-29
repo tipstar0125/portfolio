@@ -6,6 +6,9 @@
 </template>
 
 <script>
+import firebase from 'firebase/app'
+import 'firebase/auth'
+
 export default {
   name: 'Dashboard',
   data() {
@@ -14,7 +17,16 @@ export default {
     }
   },
   created() {
-    this.user = this.$store.getters['user/user']
+    
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+          this.user = this.$store.getters['user/user']
+          console.log('sign in')
+          console.log(user.displayName)
+      } else {
+        console.log('not sign in')
+      }
+    })
   }
 }
 </script>
