@@ -3,66 +3,54 @@
     <img class="mt-5" alt="Vue logo" src="../assets/logo.png">
     <div class="container">
       <div class="row">
-        <p class="col-sm-6 text-sm-left mb-3">ようこそ{{ user }}さん</p>
+        <p class="col-sm-6 text-sm-left mb-3">ようこそ{{ authInfo.user }}さん</p>
         <p class="col-sm-6 text-sm-right mb-3">残高：{{ balance}}</p>
       </div>
-      <button @click="getBalance" class="btn btn-primary">Get</button>
-      <button @click="addBalance" class="btn btn-primary">Add</button>
-      {{ fire_data}}
     </div>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
-import firebase from 'firebase/app'
-import 'firebase/auth'
+import firebase, { db } from '@/plugins/firebase'
 
 export default {
   name: 'Dashboard',
   data() {
     return {
-      user: '',
-      balance: 1000,
-      fire_data: {},
+      authInfo: {
+        user: '',
+        email: '',
+        password: '',
+        uid: '',
+      },
+      balance: 0,
     }
   },
   created() {
-    
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-          const currentUser = this.$store.getters['user/user']
-          if (!currentUser) {
-            this.user = user.displayName
+
+    firebase.auth().onAuthStateChanged((currentUser) => {
+      if (currentUser) {
+          const user = this.$store.getters['user/user']
+          if (!user) {
+            this.authInfo.user = currentUser.displayName
           } else {
-            this.user = currentUser
+            this.authInfo.user = user
           }
+
+          this.authInfo.uid = currentUser.uid
+          this.authInfo.email = currentUser.email
+          this.$store.dispatch('user/sign', this.authInfo)
+
+          const docRef = db.collection('users').doc(this.authInfo.uid)
+          docRef.get().then(doc => {
+            this.balance = doc.data().balance
+          })
+
       } else {
         this.$router.push('/signin')
       }
     })
   },
-  methods: {
-    getBalance() {
-      const url = 'https://vue-firebase-fcb7c-default-rtdb.firebaseio.com/uid.json'
-      axios.get(url).then((result) => {
-
-        if (result.data !== null) {
-          this.fire_data = result.data
-        }
-        
-      }).catch((error) => {
-        console.log(error)
-      })
-    },
-    addBalance() {
-      const url = 'https://vue-firebase-fcb7c-default-rtdb.firebaseio.com/uid/ddd.json'
-      const item = {
-        'balance': 3000,
-      }
-      axios.put(url, item)
-    },
-  }
 }
 </script>
 
