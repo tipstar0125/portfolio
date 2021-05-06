@@ -6,24 +6,24 @@
       <div v-if="isError" class="alert alert-danger" role="alert">
         {{ alertMessage }}
       </div>
-      <form method="post" @submit.prevent="signUp">
+      <form @submit.prevent="signUp">
         <h1 class="my-5">新規登録画面</h1>
         <div class="form-group row justify-content-center m-0 mb-2">
             <label for="user" class="col-3 col-form-label">ユーザ名</label>
             <div class="col-5">
-                <input type="text" name="user" id="user" class="form-control" v-model="user" placeholder="User">
+                <input type="text" name="user" id="user" class="form-control" v-model="authInfo.user" placeholder="User">
             </div>
         </div>
         <div class="form-group row justify-content-center m-0 mb-2">
             <label for="email" class="col-3 col-form-label">メールアドレス</label>
             <div class="col-5">
-                <input type="email" name="email" id="email" class="form-control" v-model="email" placeholder="vue@firebase.com">
+                <input type="email" name="email" id="email" class="form-control" v-model="authInfo.email" placeholder="vue@firebase.com">
             </div>
         </div>
         <div class="form-group row justify-content-center m-0 mb-2">
             <label for="password" class="col-3 col-form-label">パスワード</label>
             <div class="col-5">
-                <input type="password" name="password" id="password" class="form-control" v-model="password" autocomplete="off" placeholder="6文字以上">
+                <input type="password" name="password" id="password" class="form-control" v-model="authInfo.password" autocomplete="off" placeholder="6文字以上">
             </div>
         </div>
         <button class="btn btn-primary btn-lg my-3">新規登録</button>
@@ -36,16 +36,19 @@
 </template>
 
 <script>
-import firebase from 'firebase/app'
-import 'firebase/auth'
+import firebase from '@/plugins/firebase'
+import { db } from '@/plugins/firebase'
 
 export default {
   name: 'Signup',
   data() {
     return {
-      user: '',
-      email: '',
-      password: '',
+      authInfo: {
+        user: '',
+        email: '',
+        password: '',
+        uid: '',
+      },
       alertMessage: '',
       isError: false,
     }
@@ -53,27 +56,30 @@ export default {
 
   methods: {
     signUp() {
-      firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
+      firebase.auth().createUserWithEmailAndPassword(this.authInfo.email, this.authInfo.password)
       .then((response) => {
-        const user = response.user
-        user.updateProfile({
-          displayName: this.user
+        const currentUser = response.user
+        this.authInfo.uid = currentUser.uid
+        currentUser.updateProfile({
+          displayName: this.authInfo.user
         })
-
-        user.sendEmailVerification().then(() => {
-          alert('確認メールを送信しました。メールアドレスをご確認ください')
-        })
-
+        return currentUser
+      })
+      .then((currentUser) => {
+        currentUser.sendEmailVerification()
+        alert('確認メールを送信しました。メールアドレスをご確認ください')
       })
       .then(() => {
 
-        const authInfo = {
-          user: this.user,
-          email: this.email,
-          password: this.password,
+        const dbInfo = {
+          user: this.authInfo.user,
+          email: this.authInfo.email,
+          balance : 1000,
         }
 
-        this.$store.dispatch('user/signUp', authInfo)
+        db.collection('users').doc(this.authInfo.uid).set(dbInfo)
+
+        this.$store.dispatch('user/sign', this.authInfo)
         this.$router.push('/')
 
       })
