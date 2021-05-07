@@ -57,28 +57,6 @@ export default {
       this.alertMessage = 'Cannot get balance. Please reload!'
       this.isError = true
     });
-  //   firebase.auth().onAuthStateChanged((currentUser) => {
-  //     if (currentUser) {
-  //         const user = this.$store.getters['user/user']
-  //         if (!user) {
-  //           this.authInfo.user = currentUser.displayName
-  //         } else {
-  //           this.authInfo.user = user
-  //         }
-
-  //         this.authInfo.uid = currentUser.uid
-  //         this.authInfo.email = currentUser.email
-  //         this.$store.dispatch('user/sign', this.authInfo)
-
-  //         const docRef = db.collection('users').doc(this.authInfo.uid)
-  //         docRef.get().then(doc => {
-  //           this.balance = doc.data().balance
-  //         })
-
-  //     } else {
-  //       this.$router.push('/signin')
-  //     }
-  //   })
   },
   methods: {
     signOut() {

@@ -11,8 +11,16 @@ const firebaseConfig = {
     appId: process.env.VUE_APP_APP_ID
 };
 
-firebase.initializeApp(firebaseConfig);
+firebase.initializeApp(firebaseConfig)
 firebase.firestore();
+firebase.getCurrentUser = () => {
+    return new Promise((resolve, reject) => {
+        const unsubscribe = firebase.auth().onAuthStateChanged(user => {
+            unsubscribe();
+            resolve(user);
+        }, reject);
+    })
+}
 
-export const db = firebase.firestore();
-export default firebase;
+export const db = firebase.firestore()
+export default firebase
