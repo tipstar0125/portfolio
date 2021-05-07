@@ -18,7 +18,6 @@
 
 <script>
 import firebase, { db } from '@/plugins/firebase'
-// import firebase from '@/plugins/firebase'
 
 export default {
   name: 'Dashboard',
