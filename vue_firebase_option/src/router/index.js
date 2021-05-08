@@ -1,11 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Dashboard from '../views/Dashboard.vue'
+import firebase from '@/plugins/firebase'
 
 const routes = [
   {
     path: '/',
     name: 'Dashboard',
-    component: Dashboard
+    component: Dashboard,
+    meta: { requiresAuth: true }
   },
   {
     path: '/signup',
@@ -23,5 +25,15 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
 })
+
+router.beforeEach(async (to, from, next) => {
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+  if (requiresAuth && !await firebase.getCurrentUser()){
+    next({ name: 'Signin' })
+  } else {
+    next()
+  }
+})
+
 
 export default router
