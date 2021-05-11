@@ -12,15 +12,28 @@
         <p class="col-sm-6 text-sm-left mb-3">ようこそ{{ authInfo.user }}さん</p>
         <p class="col-sm-6 text-sm-right mb-3">残高：{{ balance}}</p>
       </div>
+      <div class="row mb-3">
+        <p class="col text-center user-list">ユーザ一覧</p>
+      </div>
+      <div class="row mb-1 user" v-for="(user, index) in otherUsers" :key="'user' + index">
+        <p class="col">{{ user.user }}</p>
+        <button class="btn btn-info col-3 mr-1" @click="openWalletModal(user.user, user.balance)">walletを見る</button>
+        <button class="btn btn-info col-2">送る</button>
+      </div>
+      <WalletModal :val="postBalance" v-show="showWalletModal" @close="closeWalletModal" />
     </div>
   </div>
 </template>
 
 <script>
 import firebase, { db } from '@/plugins/firebase'
+import WalletModal from '@/components/WalletModal.vue'
 
 export default {
   name: 'Dashboard',
+  components: {
+    WalletModal
+  },
   data() {
     return {
       authInfo: {
@@ -32,6 +45,12 @@ export default {
       balance: 0,
       alertMessage: '',
       isError: false,
+      otherUsers: [],
+      showWalletModal: false,
+      postBalance: {
+        user: '',
+        balance: 0,
+      },
     }
   },
   created() {
@@ -55,13 +74,30 @@ export default {
     .catch(() => {
       this.alertMessage = 'Cannot get balance. Please reload!'
       this.isError = true
-    });
+    })
+
+    db.collection("users").get().then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          if (doc.id !== this.authInfo.uid) {
+            this.otherUsers.push(doc.data())
+          }
+        })
+    })
+
   },
   methods: {
     signOut() {
       firebase.auth().signOut().then(
         this.$router.push('/signin')
       )
+    },
+    openWalletModal(user, balance) {
+      this.postBalance.user = user
+      this.postBalance.balance = balance
+      this.showWalletModal = true
+    },
+    closeWalletModal() {
+      this.showWalletModal = false
     }
   }
 }
@@ -69,7 +105,16 @@ export default {
 
 
 <style scoped>
-h1, p {
+p {
   font-size: 24px;
 }
+
+.user-list {
+  font-size: 36px;
+}
+
+.user button {
+  font-size: 24px;
+}
+
 </style>
