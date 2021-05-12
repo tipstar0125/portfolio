@@ -18,9 +18,10 @@
       <div class="row mb-1 user" v-for="(user, index) in otherUsers" :key="'user' + index">
         <p class="col">{{ user.userName }}</p>
         <button class="btn btn-info col-3 mr-1" @click="openWalletModal(user.userName, user.balance)">walletを見る</button>
-        <button class="btn btn-info col-2">送る</button>
+        <button class="btn btn-info col-2" @click="openSendModal(index, user.uid, balance)">送る</button>
       </div>
       <WalletModal :val="postBalance" v-show="showWalletModal" @close="closeWalletModal" />
+      <SendModal :val="postBalance" v-show="showSendModal" @close="closeSendModal" @send="sendMoney" />
     </div>
   </div>
 </template>
@@ -28,11 +29,13 @@
 <script>
 import firebase, { db } from '@/plugins/firebase'
 import WalletModal from '@/components/WalletModal.vue'
+import SendModal from '@/components/SendModal.vue'
 
 export default {
   name: 'Dashboard',
   components: {
-    WalletModal
+    WalletModal,
+    SendModal,
   },
   data() {
     return {
@@ -47,8 +50,11 @@ export default {
       isError: false,
       otherUsers: [],
       showWalletModal: false,
+      showSendModal: false,
       postBalance: {
+        index: 0,
         userName: '',
+        email: '',
         balance: 0,
       },
     }
@@ -72,16 +78,20 @@ export default {
       this.balance = doc.data().balance
     })
     .catch(() => {
-      this.alertMessage = 'Cannot get balance. Please reload!'
+      this.alertMessage = '残高情報を取得できませんでした。リロードしてください。'
       this.isError = true
     })
 
     db.collection('users').get().then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          if (doc.id !== this.authInfo.uid) {
-            this.otherUsers.push(doc.data())
+      querySnapshot.forEach((doc) => {
+        if (doc.id !== this.authInfo.uid) {
+          const userInfo = {
+            uid: doc.id,
+            ...doc.data()
           }
-        })
+          this.otherUsers.push(userInfo)
+        }
+      })
     })
 
   },
@@ -98,7 +108,58 @@ export default {
     },
     closeWalletModal() {
       this.showWalletModal = false
-    }
+    },
+    openSendModal(index, uid, balance) {
+      this.postBalance.index = index
+      this.postBalance.uid = uid
+      this.postBalance.balance = balance
+      this.showSendModal = true
+    },
+    closeSendModal() {
+      this.showSendModal = false
+    },
+    sendMoney(sendInfo) {
+
+      this.closeSendModal()
+      if (sendInfo.money > 0 && Number.isInteger(sendInfo.money)) {
+        if (this.balance >= sendInfo.money) {
+          
+          this.balance = this.balance - sendInfo.money
+          const authDocRef = db.collection('users').doc(this.authInfo.uid)
+          authDocRef.update({
+            balance: this.balance,
+          })
+  
+          const ReceiveDocRef = db.collection('users').doc(sendInfo.uid)
+          ReceiveDocRef.get().then((doc) => {
+            if (doc.exists) {
+              const updatedBalance = doc.data().balance + sendInfo.money
+              ReceiveDocRef.update({
+                balance: updatedBalance,
+              })
+              this.otherUsers[sendInfo.index].balance = updatedBalance
+
+            } else {
+              this.alertMessage = 'ユーザーが見つかりませんでした。'
+              this.isError = true
+            }
+          }).catch(() => {
+            this.alertMessage = '残高を更新できませんでした。再度実行してください。'
+            this.isError = true
+          })
+
+            this.isError = false
+
+        } else {
+          this.alertMessage = '残高が不足しています。'
+          this.isError = true
+        }
+
+      } else {
+        this.alertMessage = '送る金額を入力してください。'
+        this.isError = true
+      }
+    },
   }
 }
 </script>
