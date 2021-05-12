@@ -2,7 +2,7 @@
   <div id="overlay" @click.self="$emit('close')">
     <div>
       <div class="content content-top">
-        <p>{{ val.user }}さんの残高</p>
+        <p>{{ val.userName }}さんの残高</p>
         <p>{{ val.balance }}円</p>
       </div>
       <div class="content content-bottom">
