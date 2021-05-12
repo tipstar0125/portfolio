@@ -37,7 +37,7 @@ export default {
   data() {
     return {
       authInfo: {
-        user: '',
+        userName: '',
         email: '',
         password: '',
         uid: '',
@@ -53,7 +53,7 @@ export default {
       .then((response) => {
         const currentUser = response.user
 
-        this.authInfo.user = currentUser.displayName
+        this.authInfo.userName = currentUser.displayName
         this.authInfo.uid = currentUser.uid
 
         this.$store.dispatch('user/sign', this.authInfo)

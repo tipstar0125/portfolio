@@ -9,22 +9,35 @@
         <button @click="signOut" class="btn btn-primary">サインアウト</button>
       </div>
       <div class="row">
-        <p class="col-sm-6 text-sm-left mb-3">ようこそ{{ authInfo.user }}さん</p>
+        <p class="col-sm-6 text-sm-left mb-3">ようこそ{{ authInfo.userName }}さん</p>
         <p class="col-sm-6 text-sm-right mb-3">残高：{{ balance}}</p>
       </div>
+      <div class="row mb-3">
+        <p class="col text-center user-list">ユーザ一覧</p>
+      </div>
+      <div class="row mb-1 user" v-for="(user, index) in otherUsers" :key="'user' + index">
+        <p class="col">{{ user.userName }}</p>
+        <button class="btn btn-info col-3 mr-1" @click="openWalletModal(user.userName, user.balance)">walletを見る</button>
+        <button class="btn btn-info col-2">送る</button>
+      </div>
+      <WalletModal :val="postBalance" v-show="showWalletModal" @close="closeWalletModal" />
     </div>
   </div>
 </template>
 
 <script>
 import firebase, { db } from '@/plugins/firebase'
+import WalletModal from '@/components/WalletModal.vue'
 
 export default {
   name: 'Dashboard',
+  components: {
+    WalletModal
+  },
   data() {
     return {
       authInfo: {
-        user: '',
+        userName: '',
         email: '',
         password: '',
         uid: '',
@@ -32,16 +45,22 @@ export default {
       balance: 0,
       alertMessage: '',
       isError: false,
+      otherUsers: [],
+      showWalletModal: false,
+      postBalance: {
+        userName: '',
+        balance: 0,
+      },
     }
   },
   created() {
 
     const currentUser = firebase.auth().currentUser
-    const user = this.$store.getters['user/user']
-    if (!user) {
-      this.authInfo.user = currentUser.displayName
+    const userName = this.$store.getters['user/userName']
+    if (!userName) {
+      this.authInfo.userName = currentUser.displayName
     } else {
-      this.authInfo.user = user
+      this.authInfo.userName = userName
     }
 
     this.authInfo.uid = currentUser.uid
@@ -55,13 +74,30 @@ export default {
     .catch(() => {
       this.alertMessage = 'Cannot get balance. Please reload!'
       this.isError = true
-    });
+    })
+
+    db.collection('users').get().then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          if (doc.id !== this.authInfo.uid) {
+            this.otherUsers.push(doc.data())
+          }
+        })
+    })
+
   },
   methods: {
     signOut() {
       firebase.auth().signOut().then(
         this.$router.push('/signin')
       )
+    },
+    openWalletModal(userName, balance) {
+      this.postBalance.userName = userName
+      this.postBalance.balance = balance
+      this.showWalletModal = true
+    },
+    closeWalletModal() {
+      this.showWalletModal = false
     }
   }
 }
@@ -69,7 +105,16 @@ export default {
 
 
 <style scoped>
-h1, p {
+p {
   font-size: 24px;
 }
+
+.user-list {
+  font-size: 36px;
+}
+
+.user button {
+  font-size: 24px;
+}
+
 </style>

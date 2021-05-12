@@ -11,7 +11,7 @@
         <div class="form-group row justify-content-center m-0 mb-2">
             <label for="user" class="col-3 col-form-label">ユーザ名</label>
             <div class="col-5">
-                <input type="text" name="user" id="user" class="form-control" v-model="authInfo.user" placeholder="User">
+                <input type="text" name="user" id="user" class="form-control" v-model="authInfo.userName" placeholder="User">
             </div>
         </div>
         <div class="form-group row justify-content-center m-0 mb-2">
@@ -44,7 +44,7 @@ export default {
   data() {
     return {
       authInfo: {
-        user: '',
+        userName: '',
         email: '',
         password: '',
         uid: '',
@@ -61,7 +61,7 @@ export default {
         const currentUser = response.user
         this.authInfo.uid = currentUser.uid
         currentUser.updateProfile({
-          displayName: this.authInfo.user
+          displayName: this.authInfo.userName
         })
         return currentUser
       })
@@ -72,7 +72,7 @@ export default {
       .then(() => {
 
         const dbInfo = {
-          user: this.authInfo.user,
+          userName: this.authInfo.userName,
           email: this.authInfo.email,
           balance : 1000,
         }
