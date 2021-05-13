@@ -124,31 +124,26 @@ export default {
       if (sendInfo.money > 0 && Number.isInteger(sendInfo.money)) {
         if (this.balance >= sendInfo.money) {
           
-          this.balance = this.balance - sendInfo.money
           const authDocRef = db.collection('users').doc(this.authInfo.uid)
-          authDocRef.update({
-            balance: this.balance,
-          })
-  
           const ReceiveDocRef = db.collection('users').doc(sendInfo.uid)
-          ReceiveDocRef.get().then((doc) => {
-            if (doc.exists) {
-              const updatedBalance = doc.data().balance + sendInfo.money
-              ReceiveDocRef.update({
-                balance: updatedBalance,
-              })
-              this.otherUsers[sendInfo.index].balance = updatedBalance
 
-            } else {
-              this.alertMessage = 'ユーザーが見つかりませんでした。'
-              this.isError = true
-            }
-          }).catch(() => {
-            this.alertMessage = '残高を更新できませんでした。再度実行してください。'
+          db.runTransaction((transaction) => {
+            return transaction.get(ReceiveDocRef).then((doc) => {
+              const updatedBalance = doc.data().balance + sendInfo.money
+              transaction.update(ReceiveDocRef, {balance: updatedBalance})
+              transaction.update(authDocRef, {balance: this.balance - sendInfo.money})
+              return updatedBalance
+            })
+          })
+          .then((updatedBalance) => {
+            this.balance = this.balance - sendInfo.money
+            this.otherUsers[sendInfo.index].balance = updatedBalance
+            this.isError = false
+          })
+          .catch((error) => {
+            this.alertMessage = error
             this.isError = true
           })
-
-            this.isError = false
 
         } else {
           this.alertMessage = '残高が不足しています。'
