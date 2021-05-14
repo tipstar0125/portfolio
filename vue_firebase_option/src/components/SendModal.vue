@@ -2,11 +2,12 @@
   <div id="overlay" @click.self="$emit('close')">
     <div>
       <div class="content content-top">
-        <p>{{ val.userName }}さんの残高</p>
-        <p>{{ val.balance }}円</p>
+        <p>あなたの残高：{{ val.balance }}円</p>
+        <p>送る金額</p>
+        <input type="number" v-model="money">
       </div>
       <div class="content content-bottom">
-        <button class="btn btn-danger" @click="$emit('close')">閉じる</button>
+        <button class="btn btn-danger" @click="sendMoney">送信</button>
       </div>
     </div>
   </div>
@@ -14,8 +15,19 @@
 
 <script>
   export default {
-    name: 'WalletModal',
+    name: 'SendModal',
     props: ['val'],
+    data() {
+      return {
+        money: null,
+      }
+    },
+    methods: {
+      sendMoney() {
+        this.$emit('send', {index: this.val.index, uid: this.val.uid, money: Number(this.money)})
+        this.money = null
+      },
+    }
   }
 </script>
 
