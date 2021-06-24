@@ -1,5 +1,7 @@
+@charset "UTF-8";
 :root {
   --header-hieght: 80px;
+  --display-width: 980px;
 }
 
 body {
@@ -36,7 +38,7 @@ header .header-wrapper {
   z-index: 1;
   margin-top: 35px;
   background-color: #fff;
-  width: 980px;
+  width: var(--display-width);
   height: var(--header-hieght);
   -webkit-box-shadow: 5px 5px 0 0 #0001;
           box-shadow: 5px 5px 0 0 #0001;
@@ -44,7 +46,7 @@ header .header-wrapper {
 
 header .header-wrapper .header-left {
   float: left;
-  margin-left: 30px;
+  margin-left: 35px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -54,9 +56,12 @@ header .header-wrapper .header-left {
   height: inherit;
 }
 
+header .header-wrapper .header-left h1 {
+  font-size: 1rem;
+}
+
 header .header-wrapper .header-right {
   float: right;
-  margin-right: 30px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -74,7 +79,7 @@ header .header-wrapper .header-right ul {
 
 header .header-wrapper .header-right ul li {
   display: inline-block;
-  padding: 0 40px;
+  padding: 0 35px;
   position: relative;
 }
 
@@ -92,15 +97,29 @@ header .header-wrapper .header-right ul li a {
 
 header .header-wrapper .header-right ul li a span {
   display: block;
-}
-
-header .header-wrapper .header-right ul li a span.en {
   color: #000;
 }
 
-header .header-wrapper .header-right ul li a span.ja {
-  font-size: 0.8rem;
-  color: #bbb;
+header .header-wrapper .header-right ul li a span::after {
+  display: block;
+  font-size: 0.6rem;
+  color: #7777;
+}
+
+header .header-wrapper .header-right ul li a span.about::after {
+  content: '企業情報';
+}
+
+header .header-wrapper .header-right ul li a span.news::after {
+  content: 'ニュース';
+}
+
+header .header-wrapper .header-right ul li a span.service::after {
+  content: 'サービス&製品情報';
+}
+
+header .header-wrapper .header-right ul li a span.contact::after {
+  content: 'お問い合わせ';
 }
 
 header .header-wrapper .header-right ul li:not(:first-child)::before {
