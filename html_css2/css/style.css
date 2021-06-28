@@ -244,14 +244,14 @@ main #about .main-wrapper .about-container a {
   bottom: -18px;
 }
 
-main #service .main-wrapper ul li {
+main #service .main-wrapper .service-wrapper {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   margin-top: 75px;
 }
 
-main #service .main-wrapper ul li .left-wrapper {
+main #service .main-wrapper .service-wrapper .left-wrapper {
   width: 50%;
   height: 270px;
   display: -webkit-box;
@@ -266,11 +266,11 @@ main #service .main-wrapper ul li .left-wrapper {
   border: 2px solid #707070;
 }
 
-main #service .main-wrapper ul li .left-wrapper img {
+main #service .main-wrapper .service-wrapper .left-wrapper img {
   width: 60%;
 }
 
-main #service .main-wrapper ul li .right-wrapper {
+main #service .main-wrapper .service-wrapper .right-wrapper {
   width: calc(50% - 5% * 2);
   display: -webkit-box;
   display: -ms-flexbox;
@@ -288,7 +288,7 @@ main #service .main-wrapper ul li .right-wrapper {
   padding: 0 5%;
 }
 
-main #service .main-wrapper ul li .right-wrapper h3 {
+main #service .main-wrapper .service-wrapper .right-wrapper h3 {
   font-size: 20px;
   font-weight: bold;
   color: #D4004E;
@@ -296,17 +296,17 @@ main #service .main-wrapper ul li .right-wrapper h3 {
   margin-bottom: 20px;
 }
 
-main #service .main-wrapper ul li .right-wrapper p {
+main #service .main-wrapper .service-wrapper .right-wrapper p {
   margin: 0;
   margin-bottom: 20px;
   font-size: 13px;
 }
 
-main #service .main-wrapper ul li .right-wrapper p::after {
+main #service .main-wrapper .service-wrapper .right-wrapper p::after {
   content: "...";
 }
 
-main #service .main-wrapper ul li:nth-child(even) {
+main #service .main-wrapper .service-wrapper:nth-child(even) {
   -webkit-box-orient: horizontal;
   -webkit-box-direction: reverse;
       -ms-flex-direction: row-reverse;
@@ -336,6 +336,8 @@ main #news .main-wrapper .news-wrapper ul li {
 main #news .main-wrapper .news-wrapper ul li a {
   display: block;
   height: inherit;
+  position: relative;
+  z-index: 2;
 }
 
 main #news .main-wrapper .news-wrapper ul li a .link-wrapper {
