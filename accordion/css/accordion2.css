@@ -1,0 +1,89 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Meiryo";
+}
+
+.accordion {
+  max-width: 980px;
+  width: 80%;
+  margin: 10px auto;
+}
+
+.accordion .accordion__title {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #333333;
+  display: block;
+  width: 100%;
+  font-size: 1.25em;
+  font-weight: normal;
+  margin: 10px 0;
+  padding-left: 30px;
+  position: relative;
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  text-align: left;
+}
+
+.accordion .accordion__title::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border: 0;
+  border-bottom: solid 2px #333333;
+  border-right: solid 2px #333333;
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  margin-top: -6px;
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+}
+
+.accordion .accordion__title.is-active::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border: 0;
+  border-top: solid 2px #333333;
+  border-right: solid 2px #333333;
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  margin-top: -4px;
+  -webkit-transform: rotate(-45deg);
+          transform: rotate(-45deg);
+}
+
+.accordion .accordion__content {
+  list-style: none;
+}
+
+.accordion .accordion__content li p {
+  margin-top: 0;
+  margin-bottom: 0;
+  border-bottom: 1px dashed transparent;
+  line-height: 0;
+  opacity: 0;
+  visibility: hidden;
+  margin-left: 0;
+  -webkit-transition: opacity 200ms linear, visibility 200ms linear, margin-left 200ms linear, border-bottom 200ms linear, line-height 100ms linear 200ms, margin-top 100ms linear 200ms, margin-bottom 100ms linear 200ms;
+  transition: opacity 200ms linear, visibility 200ms linear, margin-left 200ms linear, border-bottom 200ms linear, line-height 100ms linear 200ms, margin-top 100ms linear 200ms, margin-bottom 100ms linear 200ms;
+}
+
+.accordion .accordion__content.is-open li p {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  border-bottom: 1px dashed #333333;
+  line-height: 1.5;
+  opacity: 1;
+  visibility: visible;
+  margin-left: 1.5em;
+  -webkit-transition: opacity 300ms linear, visibility 300ms linear, margin-left 300ms linear;
+  transition: opacity 300ms linear, visibility 300ms linear, margin-left 300ms linear;
+}
+/*# sourceMappingURL=accordion2.css.map */

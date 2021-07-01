@@ -4,7 +4,8 @@ document.addEventListener("DOMContentLoaded",() => {
     let titleEach = title[i];
     let content = titleEach.nextElementSibling;
     titleEach.addEventListener('click', () => {
-      content.classList.remove('initial')
+      titleEach.classList.toggle('is-active');
+      content.classList.remove('initial');
       content.classList.toggle('is-open');
       const isOpen = content.classList.contains('is-open');
       if (!isOpen) {
