@@ -1,0 +1,131 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.tab-wrapper {
+  max-width: 980px;
+  width: 80%;
+  margin: 10px auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.tab-wrapper label {
+  padding: 3px 12px;
+  border-radius: 3px;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  -webkit-box-ordinal-group: 0;
+      -ms-flex-order: -1;
+          order: -1;
+}
+
+.tab-wrapper label:hover {
+  background-color: #DDDDDD;
+}
+
+.tab-wrapper .tab-content {
+  width: 100%;
+  border: 0px solid transparent;
+  padding: 0;
+  opacity: 0;
+  visibility: hidden;
+  line-height: 0;
+  -webkit-transition: border 0ms linear 300ms, padding 0ms linear 300ms, opacity 0ms linear 300ms, visibility 0ms linear 300ms, line-height 0ms linear 300ms;
+  transition: border 0ms linear 300ms, padding 0ms linear 300ms, opacity 0ms linear 300ms, visibility 0ms linear 300ms, line-height 0ms linear 300ms;
+}
+
+.tab-wrapper .tab-content p {
+  white-space: nowrap;
+  overflow: hidden;
+  -webkit-animation-name: slideout-right;
+          animation-name: slideout-right;
+  -webkit-animation-duration: 300ms;
+          animation-duration: 300ms;
+  -webkit-animation-timing-function: linear;
+          animation-timing-function: linear;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
+}
+
+.tab-wrapper input[type="radio"]:checked + label {
+  background-color: #FF97C2;
+  -webkit-transition: background-color 300ms linear;
+  transition: background-color 300ms linear;
+}
+
+.tab-wrapper input[type="radio"]:checked + label + .tab-content {
+  border: 2px solid #000000;
+  padding: 0.25rem;
+  opacity: 1;
+  visibility: visible;
+  line-height: 1.5;
+}
+
+.tab-wrapper input[type="radio"]:checked + label + .tab-content p {
+  text-indent: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  -webkit-animation: none;
+          animation: none;
+}
+
+.tab-wrapper input[type="radio"]:checked + label + .tab-content p.animation-active {
+  -webkit-animation-name: slidein-left;
+          animation-name: slidein-left;
+  -webkit-animation-duration: 300ms;
+          animation-duration: 300ms;
+  -webkit-animation-timing-function: linear;
+          animation-timing-function: linear;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
+  -webkit-animation-delay: 300ms;
+          animation-delay: 300ms;
+}
+
+.tab-wrapper input[type="radio"] {
+  display: none;
+}
+
+@-webkit-keyframes slidein-left {
+  0% {
+    text-indent: -100%;
+  }
+  100% {
+    text-indent: 0;
+  }
+}
+
+@keyframes slidein-left {
+  0% {
+    text-indent: -100%;
+  }
+  100% {
+    text-indent: 0;
+  }
+}
+
+@-webkit-keyframes slideout-right {
+  0% {
+    text-indent: 0%;
+  }
+  100% {
+    text-indent: 100%;
+  }
+}
+
+@keyframes slideout-right {
+  0% {
+    text-indent: 0%;
+  }
+  100% {
+    text-indent: 100%;
+  }
+}
+/*# sourceMappingURL=tab.css.map */

@@ -1,0 +1,20 @@
+* {
+    margin: 0;
+    padding: 0;
+  }
+  
+.tab-wrapper {
+  max-width: 980px;
+  width: 80%;
+  margin: 10px auto;
+
+  .content:not(:target) {
+    display: none;
+  }
+  .content.checked {
+    display: block;
+  }
+  .content:target {
+    display: block;
+  }
+}
