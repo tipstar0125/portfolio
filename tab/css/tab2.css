@@ -1,0 +1,23 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.tab-wrapper {
+  max-width: 980px;
+  width: 80%;
+  margin: 10px auto;
+}
+
+.tab-wrapper .content:not(:target) {
+  display: none;
+}
+
+.tab-wrapper .content.checked {
+  display: block;
+}
+
+.tab-wrapper .content:target {
+  display: block;
+}
+/*# sourceMappingURL=tab2.css.map */
