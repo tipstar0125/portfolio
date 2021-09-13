@@ -1,0 +1,32 @@
+.btn {
+  text-align: right;
+  margin-bottom: 30px;
+}
+
+.btn__link {
+  border: solid 1px #707070;
+  font-size: 15px;
+  font-weight: 800;
+  padding: 0.5em 1em;
+  margin-right: 30px;
+}
+
+@media screen and (min-width: 768px) {
+  .btn {
+    text-align: initial;
+    margin-left: 25%;
+    margin-top: 3em;
+  }
+}
+
+@media screen and (min-width: 1367px) {
+  .btn {
+    margin-left: 35%;
+    margin-bottom: 60px;
+  }
+  .btn__link {
+    font-size: 20px;
+    margin-right: 120px;
+  }
+}
+/*# sourceMappingURL=btn.css.map */
